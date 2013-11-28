@@ -227,7 +227,7 @@ def fire_cannon(cannon_host, target):
     if os.path.isfile("%s/.siegerc" % (os.path.expanduser('~' + ec2_ssh_username)) ):
         siege_options = '--rc %s/.siegerc' % (os.path.expanduser('~' + ec2_ssh_username))
     else:
-        siege_options = '-c200 -t60s'
+        siege_options = '-c200 -t60M -i'
 
     # run the siege command
     if target:
@@ -235,6 +235,7 @@ def fire_cannon(cannon_host, target):
     else:
         remote_command = 'siege %s -f ~/urls.txt' % (siege_options)
 
+    print "RUNNING : " + remote_command
     # Siege writes stats to stderr
     response = exec_command(ssh_conn, remote_command, return_stderr=True)
     return response
